@@ -1,28 +1,33 @@
 import React from 'react';
 import './App.css';
-import Registration from './pages/RegistrationPage/Registration.js';
-import Login from './pages/LoginPage/Login.js';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
-import App2 from './App2';
+import HomePage from "./pages/HomePage/HomePage"
 
-//main component
+// import Registration from './pages/RegistrationPage/Registration.js';
+// import Login from './pages/LoginPage/Login.js';
+// import {
+//   BrowserRouter as Router,
+//   Switch,
+//   Route,
+//   Redirect,
+// } from 'react-router-dom';
+// import App2 from './App2';
+
+// //main component
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
   //Authuntocation
-  setUserAuth = (value) => this.setState({ isAuthenticated: true });
+  // setUserAuth = (value) => this.setState({ isAuthenticated: true });
   //switch between login page & register page & App2 page
   render() {
     return (
+
+
       <div className='app'>
-        <Router>
+        <HomePage />
+        {/* <Router>
           <Switch>
             <Route path='/auth/login'>
               <Login setUserAuth={this.setUserAuth} />
@@ -35,30 +40,30 @@ class App extends React.Component {
               <App2 />
             </PrivateRoute>
           </Switch>
-        </Router>
+        </Router> */}
       </div>
-    );
-  }
+    )
+  };
 }
 //prevent user to enter main page without login or register
-function PrivateRoute({ children, isAuthenticated, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        isAuthenticated ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/auth/login',
-              state: { from: location },
-            }}
-          />
-        )
-      }
-    />
-  );
-}
+// function PrivateRoute({ children, isAuthenticated, ...rest }) {
+//   return (
+//     <Route
+//       {...rest}
+//       render={({ location }) =>
+//         isAuthenticated ? (
+//           children
+//         ) : (
+//           <Redirect
+//             to={{
+//               pathname: '/auth/login',
+//               state: { from: location },
+//             }}
+//           />
+//         )
+//       }
+//     />
+//   );
+// }
 
 export default App;
