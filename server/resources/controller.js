@@ -2,7 +2,8 @@ const {
   BooksModel,
   ReadModel,
   userModel,
-  FavBooksModel } = require('./model.js');
+  FavBooksModel,
+  commentsModel } = require('./model.js');
 
 exports.book = function(req, res){
   const { title, author, dateOfPublication , img} = req.body;
@@ -99,4 +100,20 @@ exports.login = function (req, res) {
       .catch((err) => {
           res.status(403).send("Your Email or password is not correct");
       });
+}
+
+exports.getAllComments = function(req, res){
+  const {bookID} = req.params;
+  commentsModel.find({bookID}).then(result => {
+    res.status(200).send(result);
+  }).catch(err => {
+    console.log("Error: ", err);
+  });
+}
+
+exports.addComment = function(req, res) {
+  const {bookID, text, email, name, rating} = req.body;
+  let newComment = new commentsModel({ bookID, text, email, name, rating });
+  newComment.save().then(() => res.status(201).send("Comment Created"))
+  .catch((err) => res.status(500).send("Error: " + err))
 }

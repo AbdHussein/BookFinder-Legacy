@@ -3,6 +3,8 @@ const controller = require('./controller.js')
 
 router.get("/favorite/:userID", controller.favourite)
 .get('/login', controller.login)
+.get('/comments/:bookID', controller.getAllComments)
+.post('/comment', controller.addComment)
 .post("/book", controller.book)
 .post('/register', controller.register)
 .delete('/remove-one/:id', controller.removeOne)

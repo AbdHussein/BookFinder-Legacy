@@ -37,9 +37,23 @@ let FavBooksModel = mongoose.model('Favorite_Books', favbooksSchema);
 
 //------------------
 
+let commentsSchema = mongoose.Schema({
+  bookID : { type : String },
+  text : { type : String },
+  email : { type : String },
+  name : { type : String },
+  rating : { type : Number,  
+    default: 2,
+    min: [1, 'Rating must be above 1.0'],
+    max: [5, 'Rating must be below 5.0']
+  }
+});
+let commentsModel = mongoose.model('comments', commentsSchema);
+
 module.exports = {
   BooksModel,
   ReadModel,
   userModel,
-  FavBooksModel
+  FavBooksModel,
+  commentsModel
 };
