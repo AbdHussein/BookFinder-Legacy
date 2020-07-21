@@ -1,20 +1,14 @@
 const router = require('express').Router();
 const controller = require('./controller.js')
 
-router.post("/book", controller.book);
+router.get("/favorite/:userID", controller.favourite)
+.get('/login', controller.login)
+.post("/book", controller.book)
+.post('/register', controller.register)
+.delete('/remove-one/:id', controller.removeOne)
+.delete('/remove-read', controller.removeRead);
 
-router.get("/favorite", controller.favourite);
-
-router.post("/read-book", controller.readBook);
-
-router.get("/read-later", controller.readLater);
-
-router.delete('/remove-one', controller.removeOne);
-
-router.delete('/remove-read', controller.removeRead);
-
-router.post('/register', controller.register);
-
-router.get('/login/:Email/:Password', controller.login);
-
+// router.post("/read-book", controller.readBook);
+// router.get("/read-later", controller.readLater);
+// router.delete('/remove-read', controller.removeRead);
 module.exports = router;

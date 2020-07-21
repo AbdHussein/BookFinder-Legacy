@@ -32,5 +32,5 @@ app.use('/', router)
 /// TODO:  authentication verrification/ check for token in every req for every user
 var port = process.env.PORT || 5000;
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`app listening at port ${port}`);
 });

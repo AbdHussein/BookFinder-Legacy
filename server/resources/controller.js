@@ -1,13 +1,11 @@
 const {
-        BooksModel,    
-        LoginModel,
-        ReadModel,
-        RegModel,
-        FavBooksModel } = require('./model.js');
+  BooksModel,
+  ReadModel,
+  userModel,
+  FavBooksModel } = require('./model.js');
 
 exports.book = function(req, res){
   const { title, author, dateOfPublication , img} = req.body;
-
   let bookDoc = new ReadModel({
     title,
     author,
@@ -22,7 +20,8 @@ exports.book = function(req, res){
 
 
 exports.favourite = function(req, res){
-  FavBooksModel.find({})
+  const {userID} = req.params;
+  FavBooksModel.find({userID})
     .then((result) => {
       res.send(result);
       console.log(result);
@@ -33,16 +32,13 @@ exports.favourite = function(req, res){
 }
 
 exports.readBook = function(req, res){
-
-  const { title, dateOfPublication , img } = req.body;
+  const { userID, bookID } = req.body;
 
   let readDoc = new ReadModel({
-    title,
-    dateOfPublication,
-    img,
-  });
- readDoc
-    .save()
+    userID,
+    bookID
+    });
+  readDoc.save()
     .then(() => res.status(201).send("saved"))
     .catch((err) => res.status(500).send(err + "err"));
 }
@@ -60,52 +56,47 @@ exports.readLater = function(req, res){
 
 // does not work
 exports.removeOne = function(req,res){
-  BooksModel.find({})
-  .deleteOne({}).then((result)=>{
-    res.send("DeleteOne");
+  const { id } = req.params;
+  BooksModel.deleteOne({_id : id}).then((result)=>{
+    res.status(204).send(`${result.n} Books Deleted`);
   })
-  .catch((err)=>{
-    res.send(err)
+  .catch((err) => {
+    res.status(500).send(err);
   })
 }
 
-exports.removeRead = function(req,res){
-  ReadModel.find({})
-  .deleteOne({}).then((result)=>{
-    res.send("DeleteOne");
+exports.removeRead = function(req, res){
+  const {userID, bookID} = req.body;
+  ReadModel.deleteOne({userID, bookID}).then((result)=>{
+    res.status(204).send(`${result.n} Books Deleted`);
   })
-  .catch((err)=>{
-    res.send(err)
+  .catch((err) => {
+    res.status(500).send(err);
   })
 }
 
 exports.register = function (req, res){
 
-  const { FirstName, LastName, Email, Password } = req.body;
-  let regDocumentation = new RegModel({ FirstName, LastName, Email, Password });
+  const { FirstName, LastName, Email, Password, Salt } = req.body;
+  let regDocumentation = new userModel({ FirstName, LastName, Email, Password, Salt });
 
   regDocumentation.save().then(() =>
       res.status(201).send("created"))
-      .catch((err) => res.status(500).send(err + "err"))
+      .catch((err) => res.status(500).send("Error: " + err))
 }
 
 exports.login = function (req, res) {
-
-  const { Email, Password } = req.params;
-
-  var email = req.body.Email;
-  var password = req.body.Password;
-
-  RegModel.find({ Email, Password })
+  const { Email, Password } = req.body;
+  userModel.find({ Email, Password })
       .then((result) => {
           if (result.length > 0) {
-              res.send(true);
+            res.status(200).send("Logged in");
           }else{
-              res.send(false);
+            res.status(403).send("Your Email or password is not correct");
           }
-          console.log(result);
+          // console.log(result);
       })
       .catch((err) => {
-          res.send(err);
+          res.status(403).send("Your Email or password is not correct");
       });
 }
