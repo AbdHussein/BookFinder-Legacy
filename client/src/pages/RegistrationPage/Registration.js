@@ -1,110 +1,116 @@
-import React from 'react';
-import axios from 'axios';
-import { Link, withRouter } from 'react-router-dom';
-
-//registeration page & switch to login page
-class Registration extends React.Component {
-  constructor(props) {
-    super(props);
+import React, { Component } from 'react'
+import { register } from './SignUpAuthFunc'
+import {Link} from 'react-router-dom'
+import "./style.css"
+class SignUp extends Component {
+  constructor() {
+    super()
     this.state = {
-      FirstName: '',
-      LastName: '',
-      Email: '',
-      Password: '',
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+       firstName: '',
+       lastName: '',
+      email: '',
+      password: '',
+      errors: {}
+    }
+
+    this.onChange = this.onChange.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value })
   }
-  // save the information in db
-  handleSubmit(event) {
-    const { FirstName, LastName, Email, Password } = this.state;
+  onSubmit(e) {
+    e.preventDefault()
+    const{firstName,lastName,email,password} = this.state
+    const newUser = {
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    password: password
+    }
 
-    axios
-      .post(`http://localhost:5000/register`, {
-        FirstName,
-        LastName,
-        Email,
-        Password,
-      })
-      .then((response) => {
-        if (response.data === 'created') {
-          console.log('NOW LOGIN TO CONFIRM YOUR  ACCOUNT');
-          this.props.setUserAuth(true);
-          this.props.history.push('/auth/login');
-        }
-        alert('NOW LOGIN TO CONFIRM YOUR  ACCOUNT');
-      })
-      .catch((error) => {
-        console.log('registration error', error);
-        this.props.setUserAuth(false);
-      });
-    event.preventDefault();
+    register(newUser).then(res => {
+      this.props.history.push(`/login`)
+    }).catch((err)=>{
+      this.props.history.push(`/signUp`)
+      console.log(err)
+    })
   }
 
   render() {
     return (
-      <div class='loginform'>
-        <h1>Register</h1>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            class='inputbox'
-            type='text'
-            name='FirstName'
-            placeholder='FirstName'
-            value={this.state.FirstName}
-            onChange={this.handleChange}
-            required
-          />
-          <br />
-
-          <input
-            class='inputbox'
-            type='text'
-            name='LastName'
-            placeholder='LastName'
-            value={this.state.LastName}
-            onChange={this.handleChange}
-            required
-          />
-          <br />
-
-          <input
-            class='inputbox'
-            type='email'
-            name='Email'
-            placeholder='Email'
-            value={this.state.Email}
-            onChange={this.handleChange}
-            required
-          />
-          <br />
-          <input
-            class='inputbox'
-            type='password'
-            name='Password'
-            placeholder='Password'
-            value={this.state.Password}
-            onChange={this.handleChange}
-            required
-          />
-          <br />
-
-          <button type='submit' class='butooon'>
-            Register
-          </button>
-          <hr />
-          <p>
-            you have alredy email ! <Link to='/auth/login'> login now</Link>
-          </p>
-        </form>
+      <div className="signUp">
+        <div className="row">
+          <div className="col-md-6 mt-5 mx-auto">
+            <form noValidate onSubmit={this.onSubmit}>
+              <h1 className="h3 mb-3 font-weight-normal">Register</h1>
+              <div className="form-group">
+                <label htmlFor="name">First name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="firstName"
+                  placeholder="Enter your first name"
+                  value={this.state.firstName}
+                  onChange={this.onChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="name">Last name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="lastName"
+                  placeholder="Enter your lastname name"
+                  value={this.state.lastName}
+                  onChange={this.onChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="email">Email address</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  name="email"
+                  placeholder="Enter email"
+                  value={this.state.email}
+                  onChange={this.onChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  name="password"
+                  placeholder="Password"
+                  value={this.state.password}
+                  onChange={this.onChange}
+                />
+              </div>
+              <button
+                type="submit"
+                className="btn btn-lg btn-primary btn-block"
+              >
+                Register!
+              </button>
+              <div className="signUp" style={{marginTop:"30px",backgroundColor:"#262626"}}>  
+              <Link to="/login">
+              <button
+                type="submit"
+                className="btn btn-lg btn-secondary btn-block"
+              >
+                Signin
+              </button>
+              </Link>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-    );
+    )
   }
 }
-export default withRouter(Registration);
+
+export default SignUp

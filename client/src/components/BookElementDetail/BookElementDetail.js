@@ -1,25 +1,16 @@
 import React from 'react';
 import NavBar from '../NavBar/NavBar'
 import PhotoForPages from '../PhotoForPages/PhotoForPages'
-import CommentsBlock from 'simple-react-comments';
-
-// class DetailPage extends React.Component {
-//     state = {}
-//     render(){
-//         return (
-//             <div>
-//                 <NavBar />
-//            {PhotoForPages('Book Detailes')}
-//             </div>
-//         )
-//     }
-
-// }
-
-// export default DetailPage
-
+import {Star,NotEditStar} from "../StarComponent/Star"
 import "./style.css";
+import axios from 'axios';
 
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); 
+var yyyy = today.getFullYear();
+
+today = mm + '/' + dd + '/' + yyyy;
 
 class BookElementDetail extends React.Component {
 
@@ -38,25 +29,30 @@ class BookElementDetail extends React.Component {
         <div className="bookListElement">
         <div className="container">
         <div className="picture">
-        <a href= "#">
-         <img src={book.volumeInfo.imageLinks.thumbnail} alt="book element" />
-        </a> 
-       </div>
-            {/* <div className="AddtoFavorite">
-          <button >Add to Favorite</button>
-        </div> */}
-
-    <div className="info">
-      <h2>ABOUT</h2>
-      <p>Heather Angel, internationally known nature photographer and author, describes equipment, film, lighting, composition, and special techniques for photographing flowers in the wild and in gardens. Straightforward explanations focus on the particular challenges of taking beautiful flower photographs, such as wind, light, and problem colors. The book also includes tips on making money from nature photography. 131 color photos</p>
-      
+       <a href={book.volumeInfo.imageLinks.thumbnail}>
+        <img src={book.volumeInfo.imageLinks.thumbnail} alt="book element" />
+       </a>  
+    </div>
+        <div className="info">
+      <h2>About</h2>
+      <p>{book.volumeInfo.description}</p>
       </div>
-    {/* <div className="returnToSearch">
-          <button onClick={this.previous}> {"<- "} Return to search page</button>
-        </div> */}
+      <div className ="moreDetails__div">
+      <ul className="readMore_ul">
+         <li><span className ="tilte_span">Title: </span> {book.volumeInfo.title}</li>
+         <li><span className ="tilte_span">ID: </span> {book.id}</li>
+         <li><span className ="tilte_span">Publisher: </span>{book.volumeInfo.publisher}</li>
+         <li><span className ="tilte_span">Link: </span><a href={book.volumeInfo.infoLink}> click here</a></li>
+         <li><span className ="tilte_span">Categorie: </span>{book.volumeInfo.categories === undefined ? <span></span>: String(book.volumeInfo.categories)}</li>
+         <li><span className ="tilte_span">Pages Number: </span>{book.volumeInfo.pageCount}</li>
+      </ul>
+      </div>
+      <div className="comment">
+      <Comment bookId = {book.id}/> 
+       </div>
+      </div>
+</div> 
 
-  </div>
-</div>
 </div>
       )
     }
@@ -65,81 +61,103 @@ export default BookElementDetail
 
 
 
-// class BookElementDetail extends React.Component {
+class Comment extends React.Component {
 
-//   constructor(props) {
-//     super(props);
-//     this.state = {}
-//   }
-//   render(){
+  constructor(props) {
+    super(props);
+    this.state = {
+     comments : [
+         { 
+             date : '7/10/2019',
+             firstName : "saad",
+             lastName : "anas",
+             comment : "ooufhpewhf",
+             rating : 3
+         }
+     ],
+     comment:'',
+     rating: '',
+    }
+  }
 
-//  return(
-// <div class="row bootstrap snippets">
-//     <div class="col-md-6 col-md-offset-2 col-sm-12">
-//         <div class="comment-wrapper">
-//             <div class="panel panel-info">
-//                 <div class="panel-heading">
-//                     Comment panel
-//                 </div>
-//                 <div class="panel-body">
-//                     <textarea class="form-control" placeholder="write a comment..." rows="3"></textarea>
-//                     <br>
-//                     <button type="button" class="btn btn-info pull-right">Post</button>
-//                     <div class="clearfix"></div>
-//                     <hr>
-//                     <ul class="media-list">
-//                         <li class="media">
-//                             <a href="#" class="pull-left">
-//                                 <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle" />
-//                             </a>
-//                             <div class="media-body">
-//                                 <span class="text-muted pull-right">
-//                                     <small class="text-muted">30 min ago</small>
-//                                 </span>
-//                                 <strong class="text-success">@MartinoMont</strong>
-//                                 <p>
-//                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-//                                     Lorem ipsum dolor sit amet, <a href="#">#consecteturadipiscing </a>.
-//                                 </p>
-//                             </div>
-//                         </li>
-//                         <li class="media">
-//                             <a href="#" class="pull-left">
-//                                 <img src="https://bootdey.com/img/Content/user_2.jpg" alt="" class="img-circle" />
-//                             </a>
-//                             <div class="media-body">
-//                                 <span class="text-muted pull-right">
-//                                     <small class="text-muted">30 min ago</small>
-//                                 </span>
-//                                 <strong class="text-success">@LaurenceCorreil</strong>
-//                                 <p>
-//                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-//                                     Lorem ipsum dolor <a href="#">#ipsumdolor </a>adipiscing elit.
-//                                 </p>
-//                             </div>
-//                         </li>
-//                         <li class="media">
-//                             <a href="#" class="pull-left">
-//                                 <img src="https://bootdey.com/img/Content/user_3.jpg" alt="" class="img-circle" />
-//                             </a>
-//                             <div class="media-body">
-//                                 <span class="text-muted pull-right">
-//                                     <small class="text-muted">30 min ago</small>
-//                                 </span>
-//                                 <strong class="text-success">@JohnNida</strong>
-//                                 <p>
-//                                     Lorem ipsum dolor <a href="#">#sitamet</a> sit amet, consectetur adipiscing elit.
-//                                 </p>
-//                             </div>
-//                         </li>
-//                     </ul>
-//                 </div>
-//             </div>
-//         </div>
+  componentDidMount(){
+    axios.get(`/comments/${this.props.bookId}`).then(res =>{          
+        this.setState({
+            comments : res.data
+        })
+    })
+    .catch((err)=>{
+         console.log(err)
+    })
+}
+   changeRating= (starRate)=>{
+    this.setState({rating:starRate})
+   }
+    handleChange = (e)=>{
+        this.setState({[e.target.name]: e.target.value})
+      }
+    cancelCourse = () => { 
+    document.getElementById("commentInput").value = ''
+    }
 
-//     </div>
-//     </div>
-//     </div>
-// </div>
-// )
-//  }
+
+  AddComment = (e)=>{
+    e.preventDefault();
+      var newValue = {
+        date : today,
+        firstName : "saad",
+        lastName : "anfgergeas",
+        comment : this.state.comment,
+        rating : this.state.rating
+      }
+    var joined = this.state.comments.concat(newValue);
+    this.setState({ comments: joined })
+    this.cancelCourse();
+    }
+  render(){
+const{comments} = this.state
+ return(
+<div id = "commentsDiv" className="row bootstrap">
+    <div className="col-md-6 col-md-offset-2 col-sm-12">
+        <div className="comment-wrapper">
+            <div className="panel panel-info">
+                <div className="panel-heading">
+                   Readers Opinions About the Book 
+                </div>
+                <div className="panel-body">
+                <Star changeRating ={this.changeRating} sentence = {'Yor rated the book with   '}/>
+                    <textarea id = 'commentInput' name='comment' onChange={this.handleChange}  className="form-control" placeholder="write a comment..." rows="3"></textarea>
+                    <br />
+                    <button type="button" className="btn btn-info pull-right" onClick=  {this.AddComment}>Post</button>
+                    <div className="clearfix"></div>
+                    <hr />
+                    <ul className="media-list">
+                        {
+                            comments.map((comment,index)=>
+                                <li className="media" key = {index}>
+                                <div className="media-body">
+                                  <strong className="text-success">{ comment.firstName+ ' '+comment.lastName}</strong> 
+                                 <span className="text-muted pull-right">
+                                <small className="text-muted">{ comment.date}</small>
+                                    </span>
+                                    <NotEditStar  rate= {comment.rating} /> 
+                                    <p className = "commentmessage">
+                                        {comment.comment}
+                                    </p>
+                                </div>
+                            </li> 
+                            )
+                        }
+                   
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+)
+ }
+}

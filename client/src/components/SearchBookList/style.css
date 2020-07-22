@@ -38,8 +38,10 @@ overflow: hidden;
     border: 0;
     color: #191919;
     padding:10px 40px;
-    margin-left: 20px;
+    margin-top: 5px;
+    margin-left: 550px;
     font-size: 20px;
     font-weight: bold;
     border-radius: 5px;
+    float: center;
 }

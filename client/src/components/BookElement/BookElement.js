@@ -11,6 +11,21 @@ class BookElement extends React.Component {
       books:[]
     }
   }
+
+  FavoriteSubmit = (e)=>{
+      e.preventDefault();
+     axios.post('http://localhost:4000/contact', {
+      userID : "grgrgr",
+      
+     })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+  }
+    
   getbooks =(booksarr)=>{
     this.setState({books:booksarr})
     console.log(booksarr)

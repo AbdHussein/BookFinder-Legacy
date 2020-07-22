@@ -1,0 +1,43 @@
+
+    .landing .intro {
+        padding-top: 100px;
+        color:#FFF;
+        font-weight: bold;
+        text-align: center;
+       }
+  .landing {
+    background-color:#111111;
+    height: 700px;
+    background-image: url("./banner-bg.jpg");
+    /* background-position: center; */
+    background-size: cover;
+    /* filter: brightness(60%); */
+    }
+    .landing .intro h2 {
+     margin-left:250px;
+     margin-top: 0px;
+     text-align: center;
+     font-size: 50px;
+     width:600px;
+     border-top: 3px solid #FFF;
+     border-bottom: 3px solid #FFF;
+    }
+
+    .landing .intro button  {
+        margin-top:100px;
+        background-color:#d9d9d9;
+        color: #333333;
+        width:300px;
+        font-size: 20px;
+        border: 1.5px solid #FFF;
+        font-weight:bold ;
+        border-radius: 4px;
+        margin-left: 20px;
+       } 
+
+       .landing .intro button:hover {
+        font-weight:bold ;
+        color: #FFF;
+        background:none;
+        transform: scale(1, 1); 
+    }

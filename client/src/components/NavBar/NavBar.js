@@ -15,11 +15,17 @@ class NavBar extends React.Component {
                         </div>
                         <div className="main_list" id="mainListDiv">
                             <ul>
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Books</a></li>
-                                <li><a href="#">Favorite </a></li>
-                                <span><li><a href="#"> ReadLater </a></li></span>
-                                <li><a href="#">logOut</a></li>
+                                <Link to= "/">
+                                <li>Home</li>
+                                </Link>
+                                <Link to= "/search">
+                                <li>Books</li>
+                                </Link>
+                                <Link to= "/favorite">
+                                <li>Favorite </li>
+                                </Link>
+                                <li> ReadLater </li>
+                                <li>logOut</li>
                             </ul>
                         </div>
                     </div>

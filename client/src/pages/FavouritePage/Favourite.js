@@ -1,87 +1,72 @@
 import React from 'react';
 import axios from 'axios';
-import { Link, withRouter } from 'react-router-dom';
-
-//favorite list page => show all element that added to favorite
-class Falist extends React.Component {
-  constructor(props) {
-    super(props);
+import NavBar from '../../components/NavBar/NavBar';
+import "./style.css";
+class Favlist extends React.Component {
+  constructor(props){
+    super (props);
     this.state = {
-      fav: [],
-    };
+      FavBooks:[]
+    }
   }
-  //got all element from db
-  getadd() {
+
+   GetBookById = (id)=>{
     axios
-      .get('http://localhost:5000/favorite')
+    .get(`https://www.googleapis.com/books/v1/volumes/${id}`)
+    .then((result) => {
+      this.setState({ FavBooks: result.data });
+    })
+    .catch((err) => {
+      console.log('Error', err);
+    });
+   }
+  /// get all favorite books from db
+ componentDidMount(){
+    axios
+      .get(`/favorite/${userID}`)
       .then((result) => {
-        console.log(result.data);
-        const fava = result.data;
-        this.setState({ fav: fava });
+        this.GetBookById(result.data.bookID)
       })
       .catch((err) => {
         console.log('Error', err);
       });
   }
 
-  render() {
-    return (
-      <div id='zerinmidel'>
-        <button onClick={this.getadd.bind(this)} class='favpage'>
-          {' '}
-          List Favorite{' '}
-        </button>
-        <Link to='/auth/Search'>
-          <button class='favpage_'>HOME</button>
-        </Link>
-        <br />
-        <br />
-        <hr />
-        <br />
-        {/* itterate on array which come from db after saved it in state */}
-        {this.state.fav.map((element, index) => {
-          return (
-            <div key={index} id='bigDiv'>
-              <div class='txt'>
-                Title: {element.title} <br></br>
-                Authors: {element.author}
-                <br></br>
-                publishedDate:{element.dateOfPublication}
-                <br></br>
-              </div>
-              <br />
-              <div>
-                <img src={element.img} alt='new' class='sora' />
-                <br />
-                <br />
-                <button
-                  onClick={() => {
-                    // delete one element from the favorite list
-                    axios
-
-                      .delete('http://localhost:5000/removeOne')
-                      .then((res) => {
-                        console.log('DELETED');
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                      });
-                  }}
-                  class='zer'
-                >
-                  {' '}
-                  Remove{' '}
-                </button>
-                <br />
-                <br /> <hr />
-              </div>
-            </div>
-          );
-        })}
-        <br />
-      </div>
-    );
+  // remove bppk from db 
+  handleRemove = (e,id)=>{
+    e.preventDefault();
+    axios
+      .delete(`/remove-one/${id}`)
+      .then((res) => {
+       console.log(res)
+      })
+      .catch((err) => {
+        console.log('Error', err);
+      });
   }
-}
+    render(){
+      const{FavBooks} = this.state
+        return(
+        <div className="fav__div">
+          <NavBar />
+           {FavBooks.map((FavBook,index)=>
+              <div className="card-container">
+               <a className="card" href="#book" style={{backgroundImage: `url(${FavBook.volumeInfo.imageLinks.medium})`}} ></a>
+               <div className="desc">
+                <h2>{FavBook.volumeInfo.title}</h2>
+                <h3> Authors:{FavBook.volumeInfo.authors}</h3>
+                <p> {FavBook.volumeInfo.publishedDate}</p>
+                <div className="tag"> {FavBook.volumeInfo.categories === undefined ? <span></span>: String(FavBook.volumeInfo.categories) }</div>
+                </div>
+                <div className="btnGroup__div">
+                  <button onClick={this.handleRemove(FavBook.id)} >Remove</button>
+                </div>
+              </div>
+               )
+             }
+             </div>
+        )
+    }
+  }
+export default Favlist;
 
-export default withRouter(Falist);

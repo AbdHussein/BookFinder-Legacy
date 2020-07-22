@@ -1,16 +1,35 @@
 import React from 'react';
 import './App.css';
 import HomePage from "./pages/HomePage/HomePage"
+import SearchPage from "./pages/SearchPage/SearchPage"
+import BookListElement from "./components/BookElementDetail/BookElementDetail"
+import BookElement from "./components/BookElement/BookElement"
+import Login from "./pages/LoginPage/Login"
+import SignUp from "./pages/RegistrationPage/Registration"
+import Landing from "./pages/LandingPage/landing"
+import { BrowserRouter as Router,Switch, Route } from 'react-router-dom'
 
-// import Registration from './pages/RegistrationPage/Registration.js';
-// import Login from './pages/LoginPage/Login.js';
-// import {
-//   BrowserRouter as Router,
-//   Switch,
-//   Route,
-//   Redirect,
-// } from 'react-router-dom';
-// import App2 from './App2';
+const authintication={
+  isLoggedIn : false,
+  onAuthintication(){
+    this.isLoggedIn=true
+  },
+  ofAuthintication(){
+    this.isLoggedIn=false
+  },
+  getLoginStatus(){
+  return this.isLoggedIn
+  }
+  }
+  
+   const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={(props) => (
+      authintication.getLoginStatus() === true
+        ? <Component {...props} />
+        : <Redirect to='/' />
+    )} />
+  )
+  
 
 // //main component
 class App extends React.Component {
@@ -18,52 +37,22 @@ class App extends React.Component {
     super(props);
     this.state = {};
   }
-  //Authuntocation
-  // setUserAuth = (value) => this.setState({ isAuthenticated: true });
-  //switch between login page & register page & App2 page
   render() {
     return (
 
 
       <div className='app'>
-        <HomePage />
-        {/* <Router>
-          <Switch>
-            <Route path='/auth/login'>
-              <Login setUserAuth={this.setUserAuth} />
-            </Route>
-            <Route exact path='/auth/reg'>
-              <Registration setUserAuth={this.setUserAuth} />
-            </Route>
-
-            <PrivateRoute isAuthenticated={this.state.isAuthenticated} path='/'>
-              <App2 />
-            </PrivateRoute>
-          </Switch>
-        </Router> */}
+            <Router>
+            <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/search" component={SearchPage} />
+            <Route exact path="/search" component={BookElement} />
+            <Route exact path="/favorite" component={BookListElement} />
+        </Switch>
+        </Router>
       </div>
     )
   };
 }
-//prevent user to enter main page without login or register
-// function PrivateRoute({ children, isAuthenticated, ...rest }) {
-//   return (
-//     <Route
-//       {...rest}
-//       render={({ location }) =>
-//         isAuthenticated ? (
-//           children
-//         ) : (
-//           <Redirect
-//             to={{
-//               pathname: '/auth/login',
-//               state: { from: location },
-//             }}
-//           />
-//         )
-//       }
-//     />
-//   );
-// }
 
 export default App;
