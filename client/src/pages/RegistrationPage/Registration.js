@@ -7,10 +7,10 @@ class Registration extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      FirstName: '',
-      LastName: '',
-      Email: '',
-      Password: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -23,17 +23,19 @@ class Registration extends React.Component {
   }
   // save the information in db
   handleSubmit(event) {
-    const { FirstName, LastName, Email, Password } = this.state;
+    console.log(this.state, 'this.state');
+    const { firstName, lastName, email, password } = this.state;
 
     axios
-      .post(`http://localhost:5000/register`, {
-        FirstName,
-        LastName,
-        Email,
-        Password,
+      .post(`http://localhost:5000/signup`, {
+        firstName,
+        lastName,
+        email,
+        password,
       })
       .then((response) => {
-        if (response.data === 'created') {
+        console.log(response.data.message, 'response');
+        if (response.data.message === 'Signed Up successfully') {
           console.log('NOW LOGIN TO CONFIRM YOUR  ACCOUNT');
           this.props.setUserAuth(true);
           this.props.history.push('/auth/login');
@@ -55,9 +57,9 @@ class Registration extends React.Component {
           <input
             class='inputbox'
             type='text'
-            name='FirstName'
+            name='firstName'
             placeholder='FirstName'
-            value={this.state.FirstName}
+            value={this.state.firstName}
             onChange={this.handleChange}
             required
           />
@@ -66,9 +68,9 @@ class Registration extends React.Component {
           <input
             class='inputbox'
             type='text'
-            name='LastName'
+            name='lastName'
             placeholder='LastName'
-            value={this.state.LastName}
+            value={this.state.lastName}
             onChange={this.handleChange}
             required
           />
@@ -77,9 +79,9 @@ class Registration extends React.Component {
           <input
             class='inputbox'
             type='email'
-            name='Email'
+            name='email'
             placeholder='Email'
-            value={this.state.Email}
+            value={this.state.email}
             onChange={this.handleChange}
             required
           />
@@ -87,9 +89,9 @@ class Registration extends React.Component {
           <input
             class='inputbox'
             type='password'
-            name='Password'
+            name='password'
             placeholder='Password'
-            value={this.state.Password}
+            value={this.state.password}
             onChange={this.handleChange}
             required
           />
@@ -100,7 +102,7 @@ class Registration extends React.Component {
           </button>
           <hr />
           <p>
-            you have alredy email ! <Link to='/auth/login'> login now</Link>
+            Already have an account? <Link to='/auth/login'> LOGIN </Link>
           </p>
         </form>
       </div>

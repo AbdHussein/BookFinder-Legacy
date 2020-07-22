@@ -23,18 +23,16 @@ class Login extends React.Component {
     const { email, password } = this.state;
     //got information from db
     axios
-      .get(
-        `http://localhost:5000/login/${this.state.email}/${this.state.password}`,
+      .post('http://localhost:5000/login'
+      ,
         {
-          user: {
-            email: email,
-            password: password,
-          },
-        },
-        { withCredentials: true }
+            email,
+            password
+        }
       )
       .then((response) => {
-        if (response.data === true) {
+        console.log(response);
+        if (response.data.message === 'Logged in successfully') {
           this.props.setUserAuth(true);
           this.props.history.push('/auth/Search');
         } else {
