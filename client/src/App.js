@@ -2,26 +2,15 @@ import React from 'react';
 import './App.css';
 import HomePage from "./pages/HomePage/HomePage"
 import SearchPage from "./pages/SearchPage/SearchPage"
-import BookListElement from "./components/BookElementDetail/BookElementDetail"
-import BookElement from "./components/BookElement/BookElement"
-import Login from "./pages/LoginPage/Login"
+// import BookListElement from "./components/BookElementDetail/BookElementDetail"
+// import BookElement from "./components/BookElement/BookElement"
+import {Login, authintication} from "./pages/LoginPage/Login"
 import SignUp from "./pages/RegistrationPage/Registration"
 import Landing from "./pages/LandingPage/landing"
-import { BrowserRouter as Router,Switch, Route } from 'react-router-dom'
+// import FavPage from "./pages/FavouritePage/Favourite"
+import { BrowserRouter as Router,Switch, Route,Redirect  } from 'react-router-dom'
 
-const authintication={
-  isLoggedIn : false,
-  onAuthintication(){
-    this.isLoggedIn=true
-  },
-  ofAuthintication(){
-    this.isLoggedIn=false
-  },
-  getLoginStatus(){
-  return this.isLoggedIn
-  }
-  }
-  
+
    const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
       authintication.getLoginStatus() === true
@@ -29,7 +18,13 @@ const authintication={
         : <Redirect to='/' />
     )} />
   )
-  
+  class NotFound extends React.Component {
+    render() {
+      return (
+        <h1>404 NOT FOUND</h1>
+      )
+    }
+  }
 
 // //main component
 class App extends React.Component {
@@ -44,10 +39,14 @@ class App extends React.Component {
       <div className='app'>
             <Router>
             <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route exact path="/search" component={SearchPage} />
-            <Route exact path="/search" component={BookElement} />
-            <Route exact path="/favorite" component={BookListElement} />
+            <Route exact path="/" component={Landing} />
+            <Route exact path="/signUp" component={SignUp} />
+            <Route exact path="/login" component={Login} />
+            <PrivateRoute exact path="/home" component={HomePage}></PrivateRoute>
+            <PrivateRoute exact path="/search" component={SearchPage} ></PrivateRoute>
+            {/* <PrivateRoute exact path="/favorite" component={FavPage} ></PrivateRoute> */}
+            <Route path="*" component={NotFound}  />
+            {/* <PrivateRoute exact path="/logout" component={FavPage} ></PrivateRoute> */}
         </Switch>
         </Router>
       </div>

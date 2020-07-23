@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import NavBar from '../../components/NavBar/NavBar';
 import "./style.css";
-class Favlist extends React.Component {
+class FavPage extends React.Component {
   constructor(props){
     super (props);
     this.state = {
@@ -68,5 +68,5 @@ class Favlist extends React.Component {
         )
     }
   }
-export default Favlist;
+export default FavPage;
 

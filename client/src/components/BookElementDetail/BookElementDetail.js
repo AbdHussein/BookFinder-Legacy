@@ -5,6 +5,9 @@ import {Star,NotEditStar} from "../StarComponent/Star"
 import "./style.css";
 import axios from 'axios';
 
+
+
+
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, '0');
 var mm = String(today.getMonth() + 1).padStart(2, '0'); 
@@ -17,7 +20,7 @@ class BookElementDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+     
     }
   }
     render(){
@@ -66,22 +69,34 @@ class Comment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-     comments : [
-         { 
-             date : '7/10/2019',
-             firstName : "saad",
-             lastName : "anas",
-             comment : "ooufhpewhf",
-             rating : 3
-         }
-     ],
+     comments : [],
      comment:'',
      rating: '',
+     firstName:'',
+     lastName:'',
+     bookId : '',
+     email:''
     }
   }
 
   componentDidMount(){
-    axios.get(`/comments/${this.props.bookId}`).then(res =>{          
+    const token = localStorage.usertoken
+    axios.get(`http://localhost:5000/finduser/${token}`)
+   .then((response)=> {
+     console.log(response)
+    this.setState({
+      userId :token,
+      firstName: response.data[0].firstName,
+      lastName: response.data[0].lastName,
+      email: response.data[0].email
+    })
+   })
+   .catch(function (error) {
+     console.error(error);
+   });
+
+    axios.get(`/comments/${this.props.bookId}`).then(res =>{  
+      console.log(res)        
         this.setState({
             comments : res.data
         })
@@ -101,15 +116,30 @@ class Comment extends React.Component {
     }
 
 
-  AddComment = (e)=>{
+  AddComment = (e)=>{ 
     e.preventDefault();
-      var newValue = {
-        date : today,
-        firstName : "saad",
-        lastName : "anfgergeas",
-        comment : this.state.comment,
-        rating : this.state.rating
-      }
+    var newValue = {
+      date : today,
+      firstName : this.state.firstName,
+      lastName : this.state.lastName,
+      comment : this.state.comment,
+      rating : this.state.rating
+    }
+    var joined = this.state.comments.concat(newValue);
+    this.setState({ comments: joined })
+    this.cancelCourse();
+  axios.post('http://localhost:5000/a', {
+  userID : this.state.userId,
+  bookID : e.target.name
+  })
+  .then(function (response) {
+  console.log(response);
+  })
+ .catch(function (error) {
+  console.error(error);
+});
+}
+ 
     var joined = this.state.comments.concat(newValue);
     this.setState({ comments: joined })
     this.cancelCourse();

@@ -40,7 +40,6 @@ class Star extends React.Component {
             };
           } 
           render() {
-            const { rating } = this.state;
             
             return (                
               <div>

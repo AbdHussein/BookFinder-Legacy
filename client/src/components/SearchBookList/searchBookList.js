@@ -1,8 +1,6 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
 import axios from 'axios';
 import "./style.css"
-import BookElement from "../BookElement/BookElement"
 import NavBar from '../NavBar/NavBar'
 import PhotoForPages from '../PhotoForPages/PhotoForPages'
 class SearchBookList extends React.Component{
@@ -22,7 +20,6 @@ handleSelect = (e)=>{
 }
 handleSubmit = (e)=>{
   e.preventDefault();
-  const {searchInput} = this.state
   axios.get(`https://www.googleapis.com/books/v1/volumes?q=${this.state.searchInput}+${this.state.selectedValue}`)
   .then((result)=>{
     console.log(result.data.items)
@@ -44,7 +41,7 @@ clearInput = ()=>{
   this.setState({ searchInput: '' });
 }
 render(){
-  var message='You selected '+this.state.selectedValue;
+  // var message='You selected '+this.state.selectedValue;
   return (
     <div>
        <NavBar />

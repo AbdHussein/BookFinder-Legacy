@@ -1,9 +1,21 @@
-import React, {Component }from 'react'
+import React from 'react'
 import { login } from './LoginAuthFunc'
-import {BrowserRouter ,Router,Route,Link,Switch,Redirect } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import "./style.css"
 
-
+const authintication={
+  isLoggedIn : false,
+  onAuthintication(){
+    this.isLoggedIn=true
+  },
+  ofAuthintication(){
+    this.isLoggedIn=false
+  },
+  getLoginStatus(){
+  return this.isLoggedIn
+  }
+  }
+  
  class Login extends React.Component {
   constructor() {
     super()
@@ -93,6 +105,7 @@ import "./style.css"
   }
 }
  export{
+  authintication,
   Login
-  
+ 
 }

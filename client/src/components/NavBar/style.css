@@ -37,6 +37,8 @@
         height: 10px;
         position: absolute;
         font-weight: 700;
+        font-size: 35px;
+        color: #fff;
     }
     .nav div.logo span{
     color :#FF7129

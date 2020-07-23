@@ -11,11 +11,11 @@ class NavBar extends React.Component {
                 <nav className="nav">
                     <div className="container">
                         <div className="logo">
-                            <a href="#"><span>BOOK</span> FINDER </a>
+                            <span>BOOK</span> FINDER 
                         </div>
                         <div className="main_list" id="mainListDiv">
                             <ul>
-                                <Link to= "/">
+                                <Link to= "/home">
                                 <li>Home</li>
                                 </Link>
                                 <Link to= "/search">
@@ -24,7 +24,6 @@ class NavBar extends React.Component {
                                 <Link to= "/favorite">
                                 <li>Favorite </li>
                                 </Link>
-                                <li> ReadLater </li>
                                 <li>logOut</li>
                             </ul>
                         </div>

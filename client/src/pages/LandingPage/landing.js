@@ -22,18 +22,3 @@ class Landing extends React.Component {
 }
 
 export default Landing
-
-
-{/* <div className="container">
-<div className="jumbotron mt-5">
-  <div className="col-sm-8 mx-auto">
-    <h1 className="text-center">WELCOME</h1>
-  </div>
-  <Link to= "/login">
-     <button> <span>login</span></button>
-     </Link>
-     <Link to= "/signUp">
-     <button> <span>signUp</span></button>
-     </Link>
-</div>
-</div> */}
