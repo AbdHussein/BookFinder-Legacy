@@ -1,64 +1,58 @@
 import React from 'react';
 import './App.css';
-import Registration from './pages/RegistrationPage/Registration.js';
-import Login from './pages/LoginPage/Login.js';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
-import App2 from './App2';
+import HomePage from "./pages/HomePage/HomePage"
+import SearchPage from "./pages/SearchPage/SearchPage"
+// import BookListElement from "./components/BookElementDetail/BookElementDetail"
+// import BookElement from "./components/BookElement/BookElement"
+import {Login, authintication} from "./pages/LoginPage/Login"
+import SignUp from "./pages/RegistrationPage/Registration"
+import Landing from "./pages/LandingPage/landing"
+import FavPage from "./pages/FavouritePage/Favourite"
+import { BrowserRouter as Router,Switch, Route,Redirect  } from 'react-router-dom'
 
-//main component
+
+
+   const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={(props) => (
+      authintication.getLoginStatus() === true
+        ? <Component {...props} />
+        : <Redirect to='/' />
+    )} />
+  )
+  class NotFound extends React.Component {
+    render() {
+      return (
+        <h1>404 NOT FOUND</h1>
+      )
+    }
+  }
+
+// //main component
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
-  //Authuntocation
-  setUserAuth = (value) => this.setState({ isAuthenticated: true });
-  //switch between login page & register page & App2 page
   render() {
     return (
-      <div className='app'>
-        <Router>
-          <Switch>
-            <Route path='/auth/login'>
-              <Login setUserAuth={this.setUserAuth} />
-            </Route>
-            <Route exact path='/auth/reg'>
-              <Registration setUserAuth={this.setUserAuth} />
-            </Route>
 
-            <PrivateRoute isAuthenticated={this.state.isAuthenticated} path='/'>
-              <App2 />
-            </PrivateRoute>
-          </Switch>
+
+      <div className='app'>
+            <Router>
+            <Switch>
+            <Route exact path="/" component={Landing} />
+            <Route exact path="/signUp" component={SignUp} />
+            <Route exact path="/login" component={Login} />
+            <PrivateRoute exact path="/home" component={HomePage}></PrivateRoute>
+            <PrivateRoute exact path="/search" component={SearchPage} ></PrivateRoute>
+            <PrivateRoute exact path="/favorite" component={FavPage} ></PrivateRoute>
+            <Route path="*" component={NotFound}  />
+            {/* <PrivateRoute exact path="/logout" component={FavPage} ></PrivateRoute> */}
+        </Switch>
         </Router>
       </div>
-    );
-  }
-}
-//prevent user to enter main page without login or register
-function PrivateRoute({ children, isAuthenticated, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        isAuthenticated ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/auth/login',
-              state: { from: location },
-            }}
-          />
-        )
-      }
-    />
-  );
+    )
+  };
 }
 
 export default App;

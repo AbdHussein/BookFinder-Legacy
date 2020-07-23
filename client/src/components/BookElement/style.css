@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Heebo:400,700|Open+Sans:400,700');
-.fav__div{
+.bookList__div{
   background-color:  #595959;
   margin-left: 100px;
 }
-.fav__div * {
+.bookList__div * {
   
   float: left;
   margin-top: 25px;
@@ -11,7 +11,7 @@
   margin: auto;
   padding: 3px;
 }
-.fav__div .card-container {
+.card-container {
   float: left;
   background-color: #f2f2f2;
   width: 350px;
@@ -26,7 +26,7 @@
   box-shadow: 10px 10px 5px #ccc;
   -moz-box-shadow: 10px 10px 5px #ccc;
 }
-.fav__div * :hover{
+.bookList__div * :hover{
   background-color: #ccc;
 }
 .card {
@@ -41,7 +41,7 @@
   margin-top: 10px;
  
 } */
-.fav__div .desc h2 {
+ .desc h2 {
   margin-top: 2px;
   margin-bottom: 2px;
   font-size: 1.2em;    
@@ -51,7 +51,7 @@
   width: 300px;
   color: #333333;
 }
-.fav__div .desc h3 {
+.desc h3 {
   margin-top: 2px;
   margin-bottom: 2px;
   font-size: 1em;    
@@ -61,7 +61,7 @@
   width: 300px;
   color: #737373;
 }
-​.fav__div .desc p{
+​.desc p{
   margin-top: 2px;
   margin-bottom: 5px;
   font-size: 1em;    
@@ -71,7 +71,7 @@
   margin-left: 5px;
   width: 300px;
 }
-.fav__div .btnGroup__div {
+.btnGroup__div {
   margin-top: 20px;
   margin-left: 10px;
   ;

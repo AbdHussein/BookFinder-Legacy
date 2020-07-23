@@ -1,0 +1,104 @@
+.Footer__div{
+    height:50%
+}
+
+.contact {
+    background-color: #262626;
+    overflow: hidden;
+    margin-top: 0px;
+    padding-top: 5px;
+    padding-bottom: 30px;
+    height:625px
+}
+.contact .info{
+width: 30%;
+float: left;
+margin-left: 5px;
+margin-right:250px;
+}
+.contact h2 {
+    color: #E2EDEB;
+    margin-left: 45px;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+.info p,address {
+    margin-left:50px;
+    color: #808080;
+}
+.info p strong{
+    color:  #999999;  
+}
+
+.contact .form{
+    margin-top:35px;
+    width: 45%;
+    float: left;
+    text-align: left;
+    margin-left: 0px;
+}
+label{
+    display:block;
+    color:#999999;
+    margin-bottom: 10px;
+    margin-top:10px
+}
+
+.form input{
+    background-color:  #8c8c8c;
+    border: 0;
+    color: #e9e0e0;
+    padding:10px;
+    width:70%;
+    font-size: 20px;
+}
+.form textarea{
+    background-color:  #8c8c8c;
+    border: 0;
+    color: #e9e0e0;
+    padding:10px;
+    width:70%;
+    height: 300px;
+    font-size: 15px;
+}
+.form #submit{
+    background-color:  #595959;
+    border: 0;
+    color: #191919;
+    padding:10px 20px;
+    font-size: 15px;
+    font-weight: bold;
+    width: 40%;
+    border-radius: 5px;
+   margin-right: 50px;
+}
+
+
+
+.footer{
+    background-color: #404040;
+    text-align: center;
+    color: #b2b2b2;
+    overflow: hidden;
+}
+.footer span {
+    margin-top: 6px;
+    float: left;
+}
+.footer ul{
+    float: right;
+    list-style: none;
+    padding-left: 0;
+    margin: 5px 0 0
+}
+.footer li{
+  display: inline-block;
+  margin-right: 3px;
+    
+}
+.footer li img{
+    width: 30px;
+    height: 30px;
+    filter: brightness(50%);
+    margin: 0px;
+}

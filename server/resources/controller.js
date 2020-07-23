@@ -1,13 +1,12 @@
 const {
-        BooksModel,    
-        LoginModel,
-        ReadModel,
-        RegModel,
-        FavBooksModel } = require('./model.js');
+  BooksModel,
+  ReadModel,
+  UserModel,
+  FavBooksModel,
+  commentsModel } = require('./model.js');
 
 exports.book = function(req, res){
   const { title, author, dateOfPublication , img} = req.body;
-
   let bookDoc = new ReadModel({
     title,
     author,
@@ -20,9 +19,11 @@ exports.book = function(req, res){
     .catch((err) => res.status(500).send(err + "err"));
 }
 
-
+// get req favorite
 exports.favourite = function(req, res){
-  FavBooksModel.find({})
+  console.log(req.params.id)
+  const userID = req.params.id;
+  FavBooksModel.find({userID:userID})
     .then((result) => {
       res.send(result);
       console.log(result);
@@ -31,18 +32,31 @@ exports.favourite = function(req, res){
       res.send(err);
     });
 }
+ // post favorite
 
+ exports.AddFavorite = function(req, res){
+   console.log(req)
+  const { userID, bookID } = req.body;
+
+  let readDoc = new FavBooksModel({
+    userID,
+    bookID
+    });
+  readDoc.save()
+    .then(() => res.status(201).send("saved"))
+    .catch((err) => res.status(500).send(err + "err"));
+}
+
+
+/// 
 exports.readBook = function(req, res){
-
-  const { title, dateOfPublication , img } = req.body;
+  const { userID, bookID } = req.body;
 
   let readDoc = new ReadModel({
-    title,
-    dateOfPublication,
-    img,
-  });
- readDoc
-    .save()
+    userID,
+    bookID
+    });
+  readDoc.save()
     .then(() => res.status(201).send("saved"))
     .catch((err) => res.status(500).send(err + "err"));
 }
@@ -58,54 +72,50 @@ exports.readLater = function(req, res){
     });
 }
 
-// does not work
+/// remove fav 
 exports.removeOne = function(req,res){
-  BooksModel.find({})
-  .deleteOne({}).then((result)=>{
-    res.send("DeleteOne");
+  const userID  = req.params.id;
+  FavBooksModel.delete({userID: userID}).then((result)=>{
+    res.status(204).send(`Book Deleted`);
   })
-  .catch((err)=>{
-    res.send(err)
-  })
-}
-
-exports.removeRead = function(req,res){
-  ReadModel.find({})
-  .deleteOne({}).then((result)=>{
-    res.send("DeleteOne");
-  })
-  .catch((err)=>{
-    res.send(err)
+  .catch((err) => {
+    res.status(500).send(err);
   })
 }
 
-exports.register = function (req, res){
-
-  const { FirstName, LastName, Email, Password } = req.body;
-  let regDocumentation = new RegModel({ FirstName, LastName, Email, Password });
-
-  regDocumentation.save().then(() =>
-      res.status(201).send("created"))
-      .catch((err) => res.status(500).send(err + "err"))
+exports.removeRead = function(req, res){
+  const {userID, bookID} = req.body;
+  ReadModel.deleteOne({userID, bookID}).then((result)=>{
+    res.status(204).send(`${result.n} Books Deleted`);
+  })
+  .catch((err) => {
+    res.status(500).send(err);
+  })
 }
 
-exports.login = function (req, res) {
+exports.getAllComments = function(req, res){
+  const bookID = req.params.id;
+  commentsModel.find({bookID:bookID}).then(result => {
+    res.status(200).send(result);
+  }).catch(err => {
+    console.log("Error: ", err);
+  });
+}
 
-  const { Email, Password } = req.params;
+exports.addComment = function(req, res) {
+  const {bookID, text, email, name, rating} = req.body;
+  let newComment = new commentsModel({ bookID, text, email, name, rating });
+  newComment.save().then(() => res.status(201).send("Comment Created"))
+  .catch((err) => res.status(500).send("Error: " + err))
+}
 
-  var email = req.body.Email;
-  var password = req.body.Password;
-
-  RegModel.find({ Email, Password })
-      .then((result) => {
-          if (result.length > 0) {
-              res.send(true);
-          }else{
-              res.send(false);
-          }
-          console.log(result);
-      })
-      .catch((err) => {
-          res.send(err);
-      });
+exports.findUser = function(req, res){
+  const userID = req.params.id;
+  UserModel.find({_id:userID})
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 }

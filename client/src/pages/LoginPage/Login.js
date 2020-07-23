@@ -1,89 +1,111 @@
-import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import axios from 'axios';
+import React from 'react'
+import { login } from './LoginAuthFunc'
+import {Link} from 'react-router-dom'
+import "./style.css"
 
-//login componant
-class Login extends React.Component {
-  constructor(props) {
-    super(props);
+const authintication={
+  isLoggedIn : false,
+  onAuthintication(){
+    this.isLoggedIn=true
+  },
+  ofAuthintication(){
+    this.isLoggedIn=false
+  },
+  getLoginStatus(){
+  return this.isLoggedIn
+  }
+  }
+  
+ class Login extends React.Component {
+  constructor() {
+    super()
     this.state = {
       email: '',
       password: '',
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+      errors: {}
+    }
+
+    this.onChange = this.onChange.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value })
   }
-  //check if the email and password are exist in db
-  handleSubmit(event) {
-    const { email, password } = this.state;
-    //got information from db
-    axios
-      .get(
-        `http://localhost:5000/login/${this.state.email}/${this.state.password}`,
-        {
-          user: {
-            email: email,
-            password: password,
-          },
-        },
-        { withCredentials: true }
-      )
-      .then((response) => {
-        if (response.data === true) {
-          this.props.setUserAuth(true);
-          this.props.history.push('/auth/Search');
-        } else {
-          alert('LogIn faild . . Make sure the information is correct');
-        }
-      })
-      .catch((error) => {
-        console.log('login error', error);
-        this.props.setUserAuth(false);
-      });
-    event.preventDefault();
+  onSubmit(e) {
+    e.preventDefault()
+
+    const user = {
+      email: this.state.email,
+      password: this.state.password
+    }
+
+    login(user).then(res => {
+      if (res) {
+        authintication.onAuthintication()
+        this.props.history.push('/home')
+      }
+    })
+    .catch((err)=>{
+     console.log(err)
+    })
   }
 
   render() {
     return (
-      <div class='loginform'>
-        <h1>Log in Now</h1>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            class='inputbox'
-            type='email'
-            name='email'
-            placeholder='Email'
-            value={this.state.email}
-            onChange={this.handleChange}
-            required
-          />
-          <br />
-
-          <input
-            class='inputbox'
-            type='password'
-            name='password'
-            placeholder='Password'
-            value={this.state.password}
-            onChange={this.handleChange}
-            required
-          />
-          <br />
-          <button type='submit' class='butooon'>
-            Login
-          </button>
-          <hr />
-          <p>
-            Dont have an account ? <Link to='/auth/reg'> Sgin up</Link>{' '}
-          </p>
-        </form>
+      <div className="signIn">
+        <div className="row">
+          <div className="col-md-6 mt-5 mx-auto">
+            <form noValidate onSubmit={this.onSubmit}>
+              <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
+              <div className="form-group">
+                <label htmlFor="email">Email address</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  name="email"
+                  placeholder="Enter email"
+                  value={this.state.email}
+                  onChange={this.onChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  name="password"
+                  placeholder="Password"
+                  value={this.state.password}
+                  onChange={this.onChange}
+                />
+              </div>
+              <button
+                type="submit"
+                className="btn btn-lg btn-primary btn-block"
+              >
+                Sign in
+              </button>
+               <div className="signUp" style={{marginTop:"30px",backgroundColor:"#262626"}}>        
+               <Link to= "/signUp"> 
+                   
+              <button
+                type="submit"
+                className="btn btn-lg btn-secondary btn-block"
+              >
+                SignUp
+              </button>
+              </Link>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-    );
+    )
   }
 }
-export default withRouter(Login);
+ export{
+  authintication,
+  Login
+ 
+}
