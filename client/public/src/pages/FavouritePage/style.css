@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css?family=Heebo:400,700|Open+Sans:400,700');
+.fav__div{
+  background-color:  #595959;
+  margin-left: 100px;
+}
+.fav__div * {
+  
+  float: left;
+  margin-top: 25px;
+  /* background-color: white; */
+  margin: auto;
+  padding: 3px;
+}
+.fav__div .card-container {
+  float: left;
+  background-color: #f2f2f2;
+  width: 350px;
+  height: 110vh;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 5px;
+  overflow: hidden;
+  margin-right: 35px;
+  margin-left: 15px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  box-shadow: 10px 10px 5px #ccc;
+  -moz-box-shadow: 10px 10px 5px #ccc;
+}
+.fav__div * :hover{
+  background-color: #ccc;
+}
+.card {
+  width: 250%;
+  height: 350px;
+  background-size: cover;
+  border-radius: 5px 5px 0 0;
+}
+/* .desc {
+  height: 150px;
+  width: 50px;
+  margin-top: 10px;
+ 
+} */
+.fav__div .desc h2 {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  font-size: 1.2em;    
+  text-align: left;
+  margin-right: 20px;
+  margin-left: 5px;
+  width: 300px;
+  color: #333333;
+}
+.fav__div .desc h3 {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  font-size: 1em;    
+  text-align: left;
+  margin-right: 20px;
+  margin-left: 5px;
+  width: 300px;
+  color: #737373;
+}
+​.fav__div .desc p{
+  margin-top: 2px;
+  margin-bottom: 5px;
+  font-size: 1em;    
+  font-weight:bold;
+  text-align: left;
+  margin-right: 20px;
+  margin-left: 5px;
+  width: 300px;
+}
+.fav__div .btnGroup__div {
+  margin-top: 20px;
+  margin-left: 10px;
+  ;
+}
+.btnGroup__div button{
+  background-color:   #b2b2b2;
+  border: none;
+  width: 90px;
+  height: 40px;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: bold;
+  color:#333333 ;
+ margin-left: 10px;
+ margin-right: 5px;
+}
+.btnGroup__div button:hover{
+  background-color:  #595959;
+  color:#e6e6e6;
+}
