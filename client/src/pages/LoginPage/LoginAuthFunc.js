@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const login = user => {
   return axios
-    .post('http://localhost:5000/login', {
+    .post('/login', {
       email: user.email,
       password: user.password
     })

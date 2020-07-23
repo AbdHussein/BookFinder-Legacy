@@ -32,6 +32,6 @@ router.delete('/remove-read', controller.removeRead);
 
 router.post('/addComment', controller.addComment);
 
-router.get('/comment/:id', controller.getAllComments);
+router.get('/comments/:id', controller.getAllComments);
 
 module.exports = router;

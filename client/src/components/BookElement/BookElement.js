@@ -24,7 +24,7 @@ class BookElement extends React.Component {
 
   componentDidMount() {
     const token = localStorage.usertoken
-    axios.get(`http://localhost:5000/finduser/${token}`)
+    axios.get(`/finduser/${token}`)
    .then((response)=> {
      console.log(response)
     this.setState({
@@ -44,7 +44,7 @@ class BookElement extends React.Component {
 
   SubmitFav =(e)=>{
     e.preventDefault();
-     axios.post('http://localhost:5000/favorite', {
+     axios.post('/favorite', {
       userID : this.state.userId,
       bookID : e.target.name
      })

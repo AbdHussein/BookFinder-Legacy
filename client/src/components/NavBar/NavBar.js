@@ -1,6 +1,6 @@
 import React from 'react';
 import "./style.css"
-import {Link} from "react-router-dom"
+import {Link,Redirect} from "react-router-dom"
 
 class NavBar extends React.Component {
     state = {}
@@ -24,7 +24,7 @@ class NavBar extends React.Component {
                                 <Link to= "/favorite">
                                 <li>Favorite </li>
                                 </Link>
-                                <li>logOut</li>
+                                {/* <li onClick = { ()=>{ localStorage.clear(); <Redirect to='/' />}}>logOut</li> */}
                             </ul>
                         </div>
                     </div>

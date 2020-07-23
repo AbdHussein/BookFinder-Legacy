@@ -55,7 +55,8 @@ const UserSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    default: ''
+    unique:true
+
   },
   isDeleted: {
     type: String,

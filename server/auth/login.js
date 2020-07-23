@@ -8,14 +8,14 @@ exports.login = function(req, res){
   let { email } = body;
 
   if(!password){
-    return res.send({
+    return res.status(403).send({
       success: false,
       message: 'Error: password cannot be blank'
     })
   }
 
   if(!email){
-    return res.send({
+    return res.status(403).send({
       success: false,
       message: 'Error: email cannot be blank'
     })
@@ -26,7 +26,7 @@ exports.login = function(req, res){
   UserModel.find({ email:email })
             .then(users => {
               if(users.length !== 1){
-                return res.send({
+                return res.status(403).send({
                   success: false,
                   message: 'This user does not exist. Sign up'
                 })

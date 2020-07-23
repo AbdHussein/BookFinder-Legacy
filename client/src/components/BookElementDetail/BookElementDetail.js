@@ -74,7 +74,7 @@ class Comment extends React.Component {
      rating: '',
      firstName:'',
      lastName:'',
-     bookId : '',
+     bookId : this.props.bookId,
      email:''
     }
   }
@@ -95,7 +95,7 @@ class Comment extends React.Component {
      console.error(error);
    });
 
-    axios.get(`/comments/${this.props.bookId}`).then(res =>{  
+    axios.get(`http://localhost:5000/comments/${this.props.bookId}`).then(res =>{  
       console.log(res)        
         this.setState({
             comments : res.data
@@ -120,17 +120,19 @@ class Comment extends React.Component {
     e.preventDefault();
     var newValue = {
       date : today,
-      firstName : this.state.firstName,
-      lastName : this.state.lastName,
+      name : this.state.firstName+" "+this.state.lastName,
       comment : this.state.comment,
       rating : this.state.rating
     }
     var joined = this.state.comments.concat(newValue);
     this.setState({ comments: joined })
     this.cancelCourse();
-  axios.post('http://localhost:5000/a', {
-  userID : this.state.userId,
-  bookID : e.target.name
+  axios.post('/addComment', {
+  bookID:this.props.bookId,
+  text : this.state.comment,
+  email:this.state.email,
+  name: this.state.firstName+ ' ' + this.state.lastName,
+  rating:this.state.rating
   })
   .then(function (response) {
   console.log(response);
@@ -139,11 +141,7 @@ class Comment extends React.Component {
   console.error(error);
 });
 }
- 
-    var joined = this.state.comments.concat(newValue);
-    this.setState({ comments: joined })
-    this.cancelCourse();
-    }
+
   render(){
 const{comments} = this.state
  return(
@@ -166,7 +164,7 @@ const{comments} = this.state
                             comments.map((comment,index)=>
                                 <li className="media" key = {index}>
                                 <div className="media-body">
-                                  <strong className="text-success">{ comment.firstName+ ' '+comment.lastName}</strong> 
+                                  <strong className="text-success">{ comment.name}</strong> 
                                  <span className="text-muted pull-right">
                                 <small className="text-muted">{ comment.date}</small>
                                     </span>

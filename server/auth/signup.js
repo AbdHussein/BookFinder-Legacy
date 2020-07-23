@@ -3,8 +3,6 @@ const middlewares = require('../resources/middlewares')
 const generateAccessToken = middlewares.generateAccessToken;
 const UserModel = model.UserModel;
 
-// module.exprts = (app) => {
-  // app.post('/signup',
 exports.signup = function (req, res){
   console.log(req.body)
     const { body } = req;
@@ -70,5 +68,4 @@ exports.signup = function (req, res){
       console.log(err);
     })
   }
-// )
-// }
+

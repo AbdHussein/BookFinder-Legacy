@@ -1,14 +1,14 @@
 
     .landing .intro {
         padding-top: 100px;
-        color:#FFF;
+        color:black;
         font-weight: bold;
         text-align: center;
        }
   .landing {
     background-color:#111111;
     height: 700px;
-    background-image: url("./banner-bg.jpg");
+    background-image: url("./BookHome.jpg");
     /* background-position: center; */
     background-size: cover;
     /* filter: brightness(60%); */

@@ -21,6 +21,7 @@ exports.book = function(req, res){
 
 // get req favorite
 exports.favourite = function(req, res){
+  console.log(req.params.id)
   const userID = req.params.id;
   FavBooksModel.find({userID:userID})
     .then((result) => {
@@ -71,11 +72,11 @@ exports.readLater = function(req, res){
     });
 }
 
-// does not work
+/// remove fav 
 exports.removeOne = function(req,res){
-  const { id } = req.params;
-  BooksModel.deleteOne({_id : id}).then((result)=>{
-    res.status(204).send(`${result.n} Books Deleted`);
+  const userID  = req.params.id;
+  FavBooksModel.delete({userID: userID}).then((result)=>{
+    res.status(204).send(`Book Deleted`);
   })
   .catch((err) => {
     res.status(500).send(err);
@@ -93,8 +94,8 @@ exports.removeRead = function(req, res){
 }
 
 exports.getAllComments = function(req, res){
-  const {bookID} = req.params;
-  commentsModel.find({bookID}).then(result => {
+  const bookID = req.params.id;
+  commentsModel.find({bookID:bookID}).then(result => {
     res.status(200).send(result);
   }).catch(err => {
     console.log("Error: ", err);

@@ -7,8 +7,9 @@ import SearchPage from "./pages/SearchPage/SearchPage"
 import {Login, authintication} from "./pages/LoginPage/Login"
 import SignUp from "./pages/RegistrationPage/Registration"
 import Landing from "./pages/LandingPage/landing"
-// import FavPage from "./pages/FavouritePage/Favourite"
+import FavPage from "./pages/FavouritePage/Favourite"
 import { BrowserRouter as Router,Switch, Route,Redirect  } from 'react-router-dom'
+
 
 
    const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -44,7 +45,7 @@ class App extends React.Component {
             <Route exact path="/login" component={Login} />
             <PrivateRoute exact path="/home" component={HomePage}></PrivateRoute>
             <PrivateRoute exact path="/search" component={SearchPage} ></PrivateRoute>
-            {/* <PrivateRoute exact path="/favorite" component={FavPage} ></PrivateRoute> */}
+            <PrivateRoute exact path="/favorite" component={FavPage} ></PrivateRoute>
             <Route path="*" component={NotFound}  />
             {/* <PrivateRoute exact path="/logout" component={FavPage} ></PrivateRoute> */}
         </Switch>

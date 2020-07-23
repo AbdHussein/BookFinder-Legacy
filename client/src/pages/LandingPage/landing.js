@@ -7,7 +7,7 @@ class Landing extends React.Component {
       <div className="landing"> 
       <div className="container"> 
       <div className="intro">
-       <h2> ADOPT A CAT WE NEED YOUR HELP.</h2>
+       <h2> Welcome to book finder.</h2>
        <Link to= "/login">
      <button> <span>login</span></button>
      </Link>

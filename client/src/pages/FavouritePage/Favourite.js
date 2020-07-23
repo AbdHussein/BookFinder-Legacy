@@ -6,7 +6,8 @@ class FavPage extends React.Component {
   constructor(props){
     super (props);
     this.state = {
-      FavBooks:[]
+      FavBooks:[],
+      userId : '',
     }
   }
 
@@ -14,18 +15,36 @@ class FavPage extends React.Component {
     axios
     .get(`https://www.googleapis.com/books/v1/volumes/${id}`)
     .then((result) => {
-      this.setState({ FavBooks: result.data });
+       return result.data 
     })
     .catch((err) => {
       console.log('Error', err);
     });
    }
   /// get all favorite books from db
- componentDidMount(){
+      componentDidMount(){
+      const token = localStorage.usertoken
+      axios.get(`/finduser/${token}`)
+      .then((response)=> {
+        console.log(response)
+      this.setState({
+        userId :token
+      })
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
     axios
-      .get(`/favorite/${userID}`)
+      .get(`/favorite/${this.state.userId}`)
       .then((result) => {
-        this.GetBookById(result.data.bookID)
+        console.log(result)
+        var favArr = [];
+        for(var i = 0 ; i<result.data ; i++){
+          favArr.push(this.GetBookById (result.data[i].bookID))
+        }
+        this.setState({
+          FavBooks :favArr
+        })
       })
       .catch((err) => {
         console.log('Error', err);
@@ -33,10 +52,10 @@ class FavPage extends React.Component {
   }
 
   // remove bppk from db 
-  handleRemove = (e,id)=>{
+  handleRemove = (e)=>{
     e.preventDefault();
     axios
-      .delete(`/remove-one/${id}`)
+      .delete(`/remove-one/${this.state.userId}`)
       .then((res) => {
        console.log(res)
       })
@@ -59,7 +78,7 @@ class FavPage extends React.Component {
                 <div className="tag"> {FavBook.volumeInfo.categories === undefined ? <span></span>: String(FavBook.volumeInfo.categories) }</div>
                 </div>
                 <div className="btnGroup__div">
-                  <button onClick={this.handleRemove(FavBook.id)} >Remove</button>
+                  <button  onClick={this.handleRemove} >Remove</button>
                 </div>
               </div>
                )
