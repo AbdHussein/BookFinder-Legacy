@@ -18,7 +18,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(express.static(path.resolve(__dirname + "client", "build")));
+app.use(express.static("client/build"));
 
 
 //take the data of the book that i seach about it and put in favorit list
